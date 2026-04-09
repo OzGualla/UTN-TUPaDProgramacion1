@@ -40,24 +40,27 @@ while True:
             "7 - Actualización de stock\n"\
             "8 - Salir")
             opcion = input("-> ")
-        # Conversión del tipo de dato de entrada a entero, para utilizarlo en la selección de menú
+        
         opcion = int(opcion)
 
         # Selección de menú según input
         if opcion == 1: # Carga inicial de herramientas
             print("\n--- Carga de herramientas ---")
+
+            # El programa no acepta numeros negativos
             cantidad_herramientas = input("\nIngrese cantidad de herramientas a registrar: ")
+            while cantidad_herramientas.startswith("-"):
+                        print("\nError: No se aceptan números negativos")
+                        cantidad_herramientas = input("Ingrese cantidad de herramientas a registrar: ")
 
             # Solo se aceptan números a excepción del 0 ya que no se puede registrar 0 herramientas.
             while not cantidad_herramientas.isdigit() or cantidad_herramientas == "0":
                 print("Ingrese numero válido")
                 cantidad_herramientas = input("\nIngrese cantidad de herramientas a registrar: ")
 
-            # Conversión del tipo de dato de entrada a entero, para utilizarlo en el ciclo for
             cantidad_herramientas = int(cantidad_herramientas)
 
             # Una vez declarada la cantidad de iteraciones, se pide el ingreso de herramientas
-            # una cantidad igual al numero ingresado anteriormente
             for i in range(cantidad_herramientas):
                 herramienta_ingresada = input(f"\nIngrese nombre de herramienta n°{i+1}/{cantidad_herramientas}: ").strip()
                 # Verificación, solo se aceptan letras y no se aceptan espacios
@@ -66,7 +69,6 @@ while True:
                     herramienta_ingresada = input(f"\nIngrese nombre de herramienta n°{i+1}/{cantidad_herramientas}: ").strip()
 
                 # Si el input ya se encuentra dentro de la lista, no se acepta el ingreso
-                # y no aumenta el contador del ciclo for
                 while herramienta_ingresada in herramientas:
                     print("Error: Herramienta ya ingresada\n"\
                         "Ingrese otra herramienta")
@@ -76,7 +78,6 @@ while True:
                         print("nombre no válido, solo se aceptan letras")
                         herramienta_ingresada = input(f"\nIngrese nombre de herramienta n°{i+1}/{cantidad_herramientas}: ").strip()
                 
-                # Se ingresan los elementos al final de la lista, en cada iteración
                 herramientas.append(herramienta_ingresada)
 
         elif opcion == 2: # Carga de Existencias
@@ -86,31 +87,27 @@ while True:
                     print("\nError: Aún no se registraron herramientas:\n"\
                           "Por favor, primero registre herramientas.")
                     break
-            # Usando la variable ya ingresada, se recorre este for un numero igual de veces
-            # Al ingreso de herramientas
+
             for i in range(cantidad_herramientas):
                 print("\n--- Carga de Existencias ---")
                 cantidad_existencias = input("Ingrese la cantidad de unidades\n"\
                     f"para la herramienta: {herramientas[i]} -> ")
                 # Verificación, Si el número es negativo, se vuelve a pedir el ingreso
-                while True:
-                    if cantidad_existencias.startswith("-"):
+                while cantidad_existencias.startswith("-"):
                         print("\nError: No se aceptan números negativos")
                         cantidad_existencias = input("Ingrese la cantidad de unidades\n"\
                         f"para la herramienta: {herramientas[i]} -> ")
                 # por otro lado, si el ingreso no es un número, también se vuelve a pedir el ingreso
-                    elif not cantidad_existencias.isdigit():
+                while not cantidad_existencias.isdigit():
                         print("\nError: Solo se aceptan números")
                         cantidad_existencias = input("Ingrese la cantidad de unidades\n"\
                         f"para la herramienta: {herramientas[i]} -> ")
-            # Si el ingreso es válido, se agrega la cantidad de existencias al final de la lista en cada iteración
-            # Asegurando que se comparte el índice con la lista herramientas,
-
-            # Conversión de tipo de dato de entrada a entero, para poder utilizarlo en la lista existencias
-            cantidad_existencias = int(cantidad_existencias)
-            existencias.append(cantidad_existencias)
-            # Con cada ingreso, se muestra la herramienta junto a su stock asociado
-            print(f"\n{herramientas[i]}: {existencias[i]} unidades")
+                # Si el ingreso es válido, se agrega la cantidad de existencias al final de la lista en cada iteración
+                # Asegurando que se comparte el índice con la lista herramientas,
+                cantidad_existencias = int(cantidad_existencias)
+                existencias.append(cantidad_existencias)
+                # Con cada ingreso, se muestra la herramienta junto a su stock asociado
+                print(f"\n{herramientas[i]}: {existencias[i]} unidades")
 
         elif opcion == 3: # Visualización de Inventario
             # Si no se registraron herramientas, vuelve al menú
@@ -120,10 +117,10 @@ while True:
             # Si se registraron herramientas pero no se ingresaron existencias
             # al momento de seleccionar esta opción, vuelve al menú mostrando el error correspondiente
             if existencias == []:
-                print("\nHerramientas registradas sin cantidad\n"\
-                      "Por favor ingrese cantidad de existencias.")
+                print("\nError: herramientas sin stock disponible\n"\
+                       "Por favor, primero asigne stock a las herramientas")
                 break
-            # Muestro ambas listas ordenadas por índice
+
             print("\n--- Inventario Actual ---\n"\
                   "-----------------------")
             for i in range(len(herramientas)):
@@ -135,7 +132,6 @@ while True:
 
         elif opcion == 4: # Consulta de Stock
             print("--- Consulta de Stock ---")
-            # Se le pide al usuario el nombre del elemento a consultar
             buscar_herramienta = input("Ingrese el nombre de la herramienta que quiera consultar: ")
             # Si el nombre ingresado coincide con la lista
             if buscar_herramienta in herramientas:
@@ -147,10 +143,8 @@ while True:
 
         elif opcion == 5: # Reporte de Agotados
             print("--- Reporte de Agotados ---")
-            # Utilizando el tamaño de la lista existencias
+
             for i in range(len(existencias)):
-                # Recorre dicha lista por índice
-                # Si el elemento es igual a 0
                 if existencias[i] == 0:
                     # Lo imprime por pantalla junto al elemento asociado en la lista paralela
                     # de esta forma logrando visualizar solo las herramientas con stock 0
@@ -177,11 +171,11 @@ while True:
             if nueva_existencia.isalpha():
                 print("Error: No se ha ingresado un número")
                 break
-            # Conversión de tipo de dato de entrada a entero
+
             nueva_existencia = int(nueva_existencia)
-            # Ahora verifica si el número es menor a 0
+
             if nueva_existencia < 0:
-                # Si lo es, se vuelve al menú de opciones
+                # Si nueva_existencia es menor a 0, se vuelve al menú de opciones
                 # Mostrando el error correspondiente
                 print("Error: No se puede agregar una cantidad menor a 0")
                 break
@@ -190,7 +184,55 @@ while True:
             herramientas.append(nueva_herramienta)
             existencias.append(nueva_existencia)
         
-        elif opcion == 7:
+        elif opcion == 7: # Actualizacion de Stock
+            print("--- Actualizacion de Stock ---")
+
+            if herramientas == []:
+                 print("-"*65)
+                 print("\nError: Aún no se registraron herramientas:\n"\
+                       "Por favor, primero registre herramientas.")
+                 break
+            
+            if existencias == []:
+                 print("-"*65)
+                 print("\nError: herramientas sin stock disponible\n"\
+                       "Por favor, primero asigne stock a las herramientas")
+                 break
+            
+            actualizacion = input("1 - Ventas\n2 - Ingreso\n3 - Volver\n-> ")
+
+            while not actualizacion.isdigit():
+                print("Error: Solo se aceptan numeros")
+                actualizacion = input("1 - Ventas\n2 - Ingreso\n-> ")
+            actualizacion = int(actualizacion)
+
+            if actualizacion == 1:
+                print("\nVenta - Seleccione herramienta:")
+                for i in range(len(herramientas)):
+                    print(f"{herramientas[i]} - Stock: {existencias[i]}")
+                venta = input("-> ").strip()
+
+                while not venta.isalpha():
+                        print("Error: Solo se aceptan letras")
+                        venta = input("-> ").strip()
+                while venta not in herramientas:
+                        for i in herramientas:
+                             print(i)
+                        print("La herramienta no se encuentra disponible en el catalogo, ingrese nuevamente")
+                        venta = input("-> ").strip()
+                print("nono trolo")
+            
+            elif actualizacion == 2:
+                pass
+
+            elif actualizacion == 3:
+                break
+
+            else:
+                print("Opcion invalida")
+            if venta in herramientas:
+                print(venta)
+            
             pass
 
         elif opcion == 8: # Salir

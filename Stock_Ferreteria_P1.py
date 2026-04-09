@@ -186,7 +186,8 @@ while True:
         
         elif opcion == 7: # Actualizacion de Stock
             print("--- Actualizacion de Stock ---")
-
+            seleccion_herramienta = ""
+            venta_herramienta = ""
             if herramientas == []:
                  print("-"*65)
                  print("\nError: Aún no se registraron herramientas:\n"\
@@ -210,17 +211,33 @@ while True:
                 print("\nVenta - Seleccione herramienta:")
                 for i in range(len(herramientas)):
                     print(f"{herramientas[i]} - Stock: {existencias[i]}")
-                venta = input("-> ").strip()
+                seleccion_herramienta = input("-> ").strip()
 
-                while not venta.isalpha():
+                while not seleccion_herramienta.isalpha():
                         print("Error: Solo se aceptan letras")
-                        venta = input("-> ").strip()
-                while venta not in herramientas:
+                        seleccion_herramienta = input("-> ").strip()
+
+                while seleccion_herramienta not in herramientas:
                         for i in herramientas:
                              print(i)
                         print("La herramienta no se encuentra disponible en el catalogo, ingrese nuevamente")
-                        venta = input("-> ").strip()
-                print("nono trolo")
+                        seleccion_herramienta = input("-> ").strip()
+
+                venta_herramienta = input("Ingrese cantidad vendida: ")
+                while not venta_herramienta.isdigit():
+                     print("Error: Solo se aceptan numeros")
+                     venta_herramienta = input("Ingrese cantidad vendida: ")
+
+                venta_herramienta = int(venta_herramienta)
+
+                while venta_herramienta <= 0:
+                    print("Error: Se ingreso un numero negativo o igual a 0")
+                    venta_herramienta = input("Ingrese cantidad valida: ")
+                
+
+                
+
+
             
             elif actualizacion == 2:
                 pass
@@ -230,8 +247,8 @@ while True:
 
             else:
                 print("Opcion invalida")
-            if venta in herramientas:
-                print(venta)
+            if seleccion_herramienta in herramientas:
+                print(seleccion_herramienta)
             
             pass
 

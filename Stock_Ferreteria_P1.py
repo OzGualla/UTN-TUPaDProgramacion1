@@ -9,8 +9,6 @@ cantidad_existencias = ""
 opcion = ""
 
 # Menú iterativo, se repite hasta que el usuario seleccione la opción de salir (8)
-
-    # Vista del menú iterativo
 while opcion != 8:
     print("-"*65)
     print("\n---- Sistema de Stock ----")
@@ -75,7 +73,7 @@ while opcion != 8:
                     continue
                 # Valido que el elemento ingresado no exista actualmente en la lista, para evitar repeticiones
                 if herramienta_ingresada in herramientas:
-                    print(f"Ya se a registrado la herramienta {herramienta_ingresada}")
+                    print(f"Ya se a registrado la herramienta {herramienta_ingresada.capitalize()}")
                     continue
                 break
             herramientas.append(herramienta_ingresada)
@@ -86,7 +84,7 @@ while opcion != 8:
                 print("-"*65)
                 print("\nError: Aún no se registraron herramientas:\n"\
                         "Por favor, primero registre herramientas.")
-                break
+                continue
 
         for i in range(cantidad_herramientas):
             print("\n--- Carga de Existencias ---")
@@ -114,13 +112,13 @@ while opcion != 8:
         # Si no se registraron herramientas, vuelve al menú
         if herramientas == []:
             print("\nInventario vacío. por favor Registre herramientas")
-            break
+            continue
         # Si se registraron herramientas pero no se ingresaron existencias
         # al momento de seleccionar esta opción, vuelve al menú mostrando el error correspondiente
         if existencias == []:
             print("\nError: herramientas sin stock disponible\n"\
                     "Por favor, primero asigne stock a las herramientas")
-            break
+            continue
 
         print("\n--- Inventario Actual ---\n"\
                 "-----------------------")
@@ -129,53 +127,53 @@ while opcion != 8:
 
         # Este input es solo para poder visualizar el inventario, 
         # Sin que la vista del menú iterable moleste al usuario
-        input("Presione una tecla, para volver al menú.")
+        input("\nPresione una tecla, para volver al menú.")
 
     elif opcion == 4: # Consulta de Stock
         print("--- Consulta de Stock ---")
 
         if herramientas == []:
             print("\nInventario vacío. por favor Registre herramientas")
-            break
+            continue
         
         if existencias == []:
             print("\nError: herramientas sin stock disponible\n"\
                     "Por favor, primero asigne stock a las herramientas")
-            break
+            continue
 
         buscar_herramienta = input("Ingrese el nombre de la herramienta que quiera consultar: ")
         while not buscar_herramienta.isalpha():
-                print("Solo se aceptan letras")
+                print("\nSolo se aceptan letras")
                 buscar_herramienta = input("Ingrese el nombre de la herramienta que quiera consultar: ")
         # Si el nombre ingresado coincide con la lista
         if buscar_herramienta in herramientas:
             # Se guarda el índice asociado
             herramienta_encontrada = herramientas.index(buscar_herramienta)
             # Y se utiliza esta variable para recorrer la lista paralela y asociar el indice con la cantidad de stock
-            print(f"\n{buscar_herramienta.capitalize()}, Stock actual: {existencias[herramienta_encontrada]}")
-            input("Presione una tecla, para volver al menú.")
+            print(f"\n{buscar_herramienta.capitalize()}, Stock actual: {existencias[herramienta_encontrada]}\n")
+            input("\nPresione una tecla, para volver al menú.")
         else:
                 print("\nLa herramienta solicitada no existe en el catalogo")
-                input("Presione una tecla, para volver al menú.")
+                input("\nPresione una tecla, para volver al menú.")
 
     elif opcion == 5: # Reporte de Agotados
         print("--- Reporte de Agotados ---")
 
         if herramientas == []:
             print("\nInventario vacío. por favor Registre herramientas")
-            break
+            continue
         
         if existencias == []:
             print("\nError: herramientas sin stock disponible\n"\
                     "Por favor, primero asigne stock a las herramientas")
-            break
+            continue
 
         for i in range(len(existencias)):
             if existencias[i] == 0:
                 # Lo imprime por pantalla junto al elemento asociado en la lista paralela
                 # de esta forma logrando visualizar solo las herramientas con stock 0
                 print(f"{herramientas[i]}: {existencias[i]} unidades")
-        input("Presione una tecla, para volver al menú.")
+        input("\nPresione una tecla, para volver al menú.")
 
     elif opcion == 6: # Alta de Nuevo Producto
         print("--- Alta de nuevo producto ---")
@@ -210,10 +208,11 @@ while opcion != 8:
             existencias.append(nueva_existencia)
             break
             
-        print("Nueva herramienta registrada")
+        print("\nNueva herramienta registrada")
+        input("\nPresione una tecla, para volver al menú.")
 
     elif opcion == 7: # Actualización de Stock
-        print("--- Actualización de Stock ---")
+        print("\n--- Actualización de Stock ---")
 
         seleccion_herramienta = ""
         venta_herramienta = ""
@@ -224,13 +223,13 @@ while opcion != 8:
                 print("-"*65)
                 print("\nError: Aún no se registraron herramientas:\n"\
                     "Por favor, primero registre herramientas.")
-                break
+                continue
         
         if existencias == []:
                 print("-"*65)
                 print("\nError: herramientas sin stock disponible\n"\
                     "Por favor, primero asigne stock a las herramientas")
-                break
+                continue
         
         actualizacion = input("1 - Ventas\n2 - Ingreso\n3 - Volver\n-> ")
 
@@ -242,50 +241,92 @@ while opcion != 8:
 
         if actualizacion == 1:
             print("\nVenta - Seleccione herramienta:")
-        for i in range(len(herramientas)):
-            print(f"{herramientas[i]} - Stock: {existencias[i]}")
+            print("-"*30)
 
-        while True:    
-            seleccion_herramienta = input("-> ").strip()
+            while True:
+                for i in range(len(herramientas)):
+                    print(f"{herramientas[i]} - Stock: {existencias[i]}")    
+                seleccion_herramienta = input("-> ").strip()
+                     
+                if not seleccion_herramienta.isalpha():
+                    print("Error: Solo se aceptan letras")
+                    continue
+                
+                if seleccion_herramienta not in herramientas:
+                    print("\nLa herramienta no se encuentra disponible en el catalogo, ingrese nuevamente:\n")
+                    continue
 
-            if not seleccion_herramienta.isalpha():
-                print("Error: Solo se aceptan letras")
+                break
+
+            # Si la herramienta selecciona no dispone de stock (0) no se permite la venta
+            # y te devuelve al menú 
+            indice_paralelo = herramientas.index(seleccion_herramienta)
+            if existencias[indice_paralelo] <= 0:
+                print("No se puede realizar la venta,\nla herramienta no cuenta con stock actual")
                 continue
 
-            elif seleccion_herramienta not in herramientas:
-                for i in herramientas:
-                        print(i)
-                print("La herramienta no se encuentra disponible en el catalogo, ingrese nuevamente")
-                continue
-            
-            else:
-                indice_paralelo = herramientas.index(seleccion_herramienta)
-            break
+            while True:
+                venta_herramienta = input("Ingrese cantidad vendida: ")
+                if not venta_herramienta.lstrip("-").isdigit():
+                    print("Error: Solo se aceptan números")
+                    continue
+                
+                venta_herramienta = int(venta_herramienta)
 
-        while True:
-            venta_herramienta = input("Ingrese cantidad vendida: ")
-            if not venta_herramienta.lstrip("-").isdigit():
-                print("Error: Solo se aceptan numeros")
-                continue
-            
-            venta_herramienta = int(venta_herramienta)
+                # no se permite vender una cantidad menor o igual a 0
+                if venta_herramienta <= 0:
+                    print("Error: Las ventas deben ser mayor a 0\nNo se aceptan números negativos")
+                    continue
+                # no se permite vender un item si no hay stock suficiente
+                if venta_herramienta > existencias[indice_paralelo]:
+                    print("La cantidad vendida supera el stock actual\n")
+                    print("Intente de nuevo")
+                    continue
+                
+                break
+            # Utilizando el indice dentro de la lista existencias,
+            # se le resta y reasigna el numero ingresado a este elemento
+            existencias[indice_paralelo] -= venta_herramienta
+            print(f"\nSe a vendido {herramientas[indice_paralelo]} por {venta_herramienta} unidades")
+            input("\nPresione una tecla, para volver al menú.")
 
-            if venta_herramienta <= 0:
-                print("Error: Las ventas deben ser mayor a 0\nNo se aceptan numeros negativos")
-                continue
+        elif actualizacion == 2:
+             print("\nIngreso de stock - Seleccione herramienta:")
+             print("-"*30)
+             for i in range (len(herramientas)):
+                  print(f"{herramientas[i]} - Stock: {existencias[i]}")
+             
+             while True:
+                seleccion_herramienta = input("-> ").strip()
+                if not seleccion_herramienta.isalpha():
+                    print("Error: Solo se aceptan letras")
+                    continue
+                if not seleccion_herramienta in herramientas:
+                     print("\nLa herramienta no se encuentra disponible en el catalogo, ingrese nuevamente\n")
+                     continue
+                break
+             
+             indice_paralelo = herramientas.index(seleccion_herramienta)
+             
+             while True:
+                aumentar_stock = input("Ingrese cantidad a agregar al stock: ")
+                if not aumentar_stock.lstrip("-").isdigit():
+                     print("Error: Solo se aceptan números")
+                     continue
+                aumentar_stock = int(aumentar_stock)
 
-            if venta_herramienta > existencias[indice_paralelo]:
-                print("La cantidad vendida supera el stock actual\n")
-                print("Intente denuevo")
-                continue
-            
-            break
-        existencias[indice_paralelo] -= venta_herramienta
-        print(indice_paralelo)
-        print(existencias[indice_paralelo])
-
-        break
-        
+                # No se permite agregar una cantidad menor o igual a 0
+                if aumentar_stock <= 0:
+                    print("Error: El ingreso de stock debe ser mayor a 0\nNo se aceptan números negativos")
+                    continue
+                break
+             # Utilizando el indice dentro de la lista existencias,
+             # se le suma y reasigna el numero ingresado a este elemento
+             existencias[indice_paralelo] += aumentar_stock
+             print("Cantidad agregada correctamente")
+             
+        elif actualizacion == 3:
+             continue
 
     elif opcion == 8: # Salir
         # Termina la ejecución del programa

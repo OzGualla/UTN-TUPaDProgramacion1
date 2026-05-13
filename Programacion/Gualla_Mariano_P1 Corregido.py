@@ -10,8 +10,6 @@ Sistema de stock para ferretería:
 # ===================
 def validar_letras(palabra):
     """
-    Si el parámetro no es alfabético
-    no acepta la entrada y vuelve a pedir el input
     Recibe como parámetro: palabra (str)
     Y retorna: palabra (str) validado
     """

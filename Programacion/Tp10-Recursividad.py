@@ -27,6 +27,22 @@ def validar_numero(mensaje):
 
         return num
     
+# Validación de entrada:
+def validar_numero_y_cero(mensaje):
+    """
+    Pide input str()
+    permite ingresar 0
+    Retorna int(validado)
+    """
+    while True:
+        num = input(mensaje)
+        if not num.isdigit():
+            print("Solo se aceptan números positivos")
+            continue
+
+        num = int(num)
+        return num
+    
 # Valida texto
 def validar_letras(mensaje):
     while True:
@@ -132,14 +148,83 @@ def es_palindromo(frase, frase_invertida = "", frase_original = None):
 # Ejercicio 6:
 # ============
             
+def suma_digitos(n):
+    """
+    Recibe int() positivo
+    Retorna int() con la suma de sus dígitos
+    Usa % para extraer el último dígito y // para recursion
+    """
+    # Caso base: un solo dígito, se retorna a sí mismo sin sumar nada
+    if n < 10:
+        return n
+    
+    # Extrae el último dígito y suma con el resto
+    return (n % 10) + suma_digitos(n // 10)
 
+# ============
+# Ejercicio 7:
+# ============
+
+def contar_bloques(bloques):
+    """
+    Recibe int() con cantidad de pisos
+    Retorna int() con el total de bloques de la pirámide
+    """
+    # Case base, si los bloques llegan a 0
+    if bloques == 0:
+        return 0
+    
+    else:
+        return bloques + contar_bloques(bloques - 1)
+    
+def dibujar_piramide(piso_actual, total_piso):
+    """
+    Recibe int() piso actual y total de pisos
+    Dibuja cada piso de la pirámide
+    """
+    # Caso base, si supera el numero total de pisos.
+    if piso_actual > total_piso:
+        return
+    # Imprime los bloques del piso actual
+    print("▭ " * piso_actual)
+
+    dibujar_piramide(piso_actual + 1, total_piso)
+
+# ============
+# Ejercicio 8:
+# ============
+
+def contar_digito(numero, digito):
+    """
+    Recibe int() numero y int() dígito (0-9)
+    Retorna int() con la cantidad de veces que aparece el dígito
+    """
+    # Caso base: no quedan dígitos
+    if numero == 0:
+        return 0
+    
+    # Compara el último dígito con el buscado
+    if numero % 10 == digito:
+        coincidencia = 1
+    else:
+        coincidencia = 0
+    
+    # Descarta el último dígito
+    return coincidencia + contar_digito(numero // 10, digito)
+
+
+# Menú de opciones
 def menu():
     print("\n=== Menú ===\n" \
     "1 - Factorial\n" \
     "2 - Fibonacci\n" \
     "3 - Exponente\n" \
     "4 - Convertir a binario\n" \
-    "5 - Palindromo\n")
+    "5 - Palíndromo\n" \
+    "6 - Suma de dígitos\n" \
+    "7 - Pirámide\n" \
+    "8 - Contar dígitos\n" \
+    "0 - Salir\n")
 
 def siguiente_ejercicio():
     input("\nPresione una tecla para continuar...")
@@ -155,7 +240,7 @@ def siguiente_ejercicio():
 while True:
 
     menu()
-    opcion = validar_numero("-> ")
+    opcion = validar_numero_y_cero("-> ")
     match opcion:
 
         case 1:
@@ -243,13 +328,14 @@ while True:
             # ============
             # Ejercicio 5:
             # ============
-            print("Ingrese una frase (sin espacios, ni tildes) para saber si es palindromo")
+            print("=== Palíndromo ===")
+            print("Ingrese una frase (sin espacios, ni tildes) para saber si es Palíndromo")
             # Uso funcion .lower() y .strip() para evitar inconsistencias en la frase
             frase = validar_letras("Frase: ").lower().strip()
             
             try:
                 # Muestra True or False según coincidencia
-                print(f"{frase} es palindromo?\n-> {es_palindromo(frase)}")
+                print(f"{frase} es Palíndromo?\n-> {es_palindromo(frase)}")
 
             except RecursionError:
                 print(f"\nError: Se ha sobrepasado el limite de pila")
@@ -260,7 +346,53 @@ while True:
             # ============
             # Ejercicio 6:
             # ============
-            pass
+                print("=== Suma de dígitos ===")
+                numero = validar_numero("Ingrese un número: ")
+
+                try:
+                    print(f"Suma de dígitos de {numero}: {suma_digitos(numero)}")
+
+                except RecursionError:
+                    print("\nError: Se ha sobrepasado el límite de pila")
+        
+        case 7:
+            # ============
+            # Ejercicio 7:
+            # ============
+            print("=== Pirámide de bloques ===")
+
+            print("Cuantos bloques puso el niño en el nivel inferior?")
+            cantidad_bloques = validar_numero("Bloques -> ") 
+            
+            try:
+                total = contar_bloques(cantidad_bloques)
+                print(f"\nEntonces va a necesitar {contar_bloques(cantidad_bloques)} bloques\n"\
+                    "para construir la pirámide")
+
+                print("\n=== Pirámide ===\n")
+                dibujar_piramide(1, cantidad_bloques)
+                
+            except RecursionError:
+                    print("\nError: Ha puesto demasiados bloques! no podrá construir la pirámide")
+            
+            siguiente_ejercicio()
+
+        case 8:
+            # ============
+            # Ejercicio 8:
+            # ============
+            numero = validar_numero("Ingresá un número: ")
+            digito = validar_numero("Ingresá un dígito (1-9): ")
+
+            try:
+                resultado = contar_digito(numero, digito)
+                print(f"El dígito {digito} aparece {resultado} vez/veces en {numero}")
+            except RecursionError:
+                print("\nError: Se ha sobrepasado el límite de pila")
+        
+        case 0:
+            print("=== Gracias por su tiempo ===")
+            break
         
         case _:
             print("=== Opción invalida ===")

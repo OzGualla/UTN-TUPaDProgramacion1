@@ -6,7 +6,7 @@
 # ========================
 
 import sys
-sys.setrecursionlimit(2000)
+sys.setrecursionlimit(5000)
 
 # Validación de entradas
 def validar_numero(mensaje):
@@ -27,11 +27,21 @@ def validar_numero(mensaje):
 
         return num
     
+# Valida texto
+def validar_letras(mensaje):
+    while True:
+        texto = input(mensaje)
+        if not texto.isalpha():
+            print("\nSolo se aceptan letras")
+            continue
+        return texto
+    
 # ============
 # Ejercicio 1:
 # ============
 
 def factorial_recursivo(num):
+    # Caso Base
     if num == 0:
         return 1
     else:
@@ -42,6 +52,10 @@ def factorial_recursivo(num):
 # ============
 
 def fibonacci_recursivo(num):
+    """ 
+    Se recomiendo no ingresar un numero mayor a 40
+    para evitar demoras en tiempos de ejecución
+    """
     # Casos base
     if num == 0:
         return 0
@@ -66,6 +80,7 @@ def ver_serie_fibonacci(num):
 # ============
 
 def potencia_recursiva(n,m):
+    # Caso Base
     if m == 0:
         return 1
     else:
@@ -77,36 +92,53 @@ def potencia_recursiva(n,m):
 
 def decimal_a_binario(num):
     """ 
-    Recibe int(), 
+    Recibe int() en base decimal, 
     Asigna "0","1" según condición
-    retorna str()
+    retorna str() representado en binario
     """
-    binario = ""
-    # Caso base, devuelve la variable vacía
-    if num <= 0:
-        return binario
+    # Caso base, devuelve vacío
+    if num == 0:
+        return ""
     
-    if num % 2 == 0:
-        binario = "0"
-        print(binario)
+    resto = str(num % 2)
+    # La division entera, es para llegar al numero 0 de forma entera
+    cociente = num // 2 
     
-    else:
-        binario = "1"
-        print(binario)
+    # acumula el resto al final, primero resuelve el cociente
+    return decimal_a_binario(cociente) + resto
 
-    cociente = num/2
-    # Convertir variable a int() para obtener un 0 entero
-    cociente = int(cociente)
+# ============
+# Ejercicio 5:
+# ============
 
-    return decimal_a_binario(cociente)
+def es_palindromo(frase, frase_invertida = "", frase_original = None):
+    """
+    Recibe str() sin espacios, ni tildes
+    Acumula la frase invertida y compara con el original
+    Retorna True si es palíndromo, False si no es
+    """
+    # Guarda la frase solo en la primera llamada
+    if frase_original is None:
+        frase_original = frase
+
+    # Caso base: compara la frase original con la invertida cuando termina la recursividad acumulada
+    if len(frase) == 0:
+        return frase_original == frase_invertida
+    
+    # Agrega la primera letra al frente de frase_invertida y avanza
+    return es_palindromo(frase[1:], frase[0] + frase_invertida, frase_original)
+            
 
 def menu():
     print("\n=== Menú ===\n" \
     "1 - Factorial\n" \
     "2 - Fibonacci\n" \
     "3 - Exponente\n" \
-    "4 - Convertir a binario\n")
+    "4 - Convertir a binario\n" \
+    "5 - Palindromo\n")
 
+def siguiente_ejercicio():
+    input("\nPresione una tecla para continuar...")
 
 # --------------------------------------------------------------------------
 
@@ -135,6 +167,8 @@ while True:
 
             except RecursionError:
                 print(f"\nError: Se ha sobrepasado el limite de pila")
+            
+            siguiente_ejercicio()
         
         case 2:
             # ============
@@ -148,6 +182,8 @@ while True:
 
             except RecursionError:
                 print(f"\nError: Se ha sobrepasado el limite de pila")
+            
+            siguiente_ejercicio()
 
         case 3:
             # ============
@@ -172,10 +208,14 @@ while True:
             lista_numero_y_exponente = [
                 (2,3),(3,2),(4,4),(6,2),(8,3),(10,4)
             ]
+
             print("\n=== Prueba de diferentes valores potenciados ===")
+            print(lista_numero_y_exponente)
             # Se le pasa una lista de valores para probar diferentes combinaciones
             for numero,exponente in lista_numero_y_exponente:
                 print(f"\n{numero} elevado a {exponente} es: {potencia_recursiva(numero,exponente)}")
+            
+            siguiente_ejercicio()
 
         case 4:
             # ============
@@ -184,13 +224,33 @@ while True:
 
             print("=== Convertir a número binario ===")
 
-            numero_a_binario = validar_numero("Ingrese número: ")
+            numero_a_binario = validar_numero("Ingrese número a convertir: ")
 
             try:
-                decimal_a_binario(numero_a_binario)
+                resultado = decimal_a_binario(numero_a_binario)
+                print(f"{numero_a_binario} en binario es: {resultado}")
 
             except RecursionError:
                 print(f"\nError: Se ha sobrepasado el limite de pila")
+            
+            siguiente_ejercicio()
+
+        case 5:
+            # ============
+            # Ejercicio 5:
+            # ============
+            print("Ingrese una frase (sin espacios, ni tildes) para saber si es palindromo")
+            # Uso funcion .lower() y .strip() para evitar inconsistencias en la frase
+            frase = validar_letras("Frase: ").lower().strip()
+            
+            try:
+                # Muestra True or False según coincidencia
+                print(f"{frase} es palindromo?\n-> {es_palindromo(frase)}")
+
+            except RecursionError:
+                print(f"\nError: Se ha sobrepasado el limite de pila")
+            
+            siguiente_ejercicio()
         
         case _:
             print("=== Opción invalida ===")

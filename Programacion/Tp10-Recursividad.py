@@ -127,6 +127,10 @@ def es_palindromo(frase, frase_invertida = "", frase_original = None):
     
     # Agrega la primera letra al frente de frase_invertida y avanza
     return es_palindromo(frase[1:], frase[0] + frase_invertida, frase_original)
+
+# ============
+# Ejercicio 6:
+# ============
             
 
 def menu():
@@ -251,6 +255,12 @@ while True:
                 print(f"\nError: Se ha sobrepasado el limite de pila")
             
             siguiente_ejercicio()
+
+        case 6:
+            # ============
+            # Ejercicio 6:
+            # ============
+            pass
         
         case _:
             print("=== Opción invalida ===")

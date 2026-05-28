@@ -265,6 +265,8 @@ def actualizar_stock(inventario):
 
             case 1:
 
+                print("=== Venta ===\n")
+
                 try:
 
                     buscar = validar_letras("Seleccione herramienta: ")
@@ -293,6 +295,8 @@ def actualizar_stock(inventario):
 
             case 2:
 
+                print("=== Ingreso ===\n")
+                
                 try:
 
                     buscar = validar_letras("Seleccione herramienta: ")
@@ -302,7 +306,7 @@ def actualizar_stock(inventario):
                     if herramienta is None:
                         raise ValueError("La herramienta no se encuentra en el catálogo")
                 
-                    cantidad_ingreso = validar_numero("Ingrese cantidad: ")
+                    cantidad_ingreso = validar_numero("Cantidad ingresada: ")
 
                     if cantidad_ingreso <= 0:
                         raise ValueError("La cantidad no puede ser menor o igual a 0")

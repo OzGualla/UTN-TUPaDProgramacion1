@@ -1,0 +1,17 @@
+""" MODULOS """
+# ES UN CODIGO AISALO COMO LAS LIBRERIAS 
+# SE PUEDE LLAMAR DESDE OTRO FICHERO .PY
+# Pero dentro del mismo grupo "CURSO" por ejemplo
+
+import my_module # Para acceder a otros ficheros
+
+my_module.hola("Yuli") #llamar a todas las funciones del fichero
+
+from my_module import suma # LLamar espesifica mente 
+                           # a la funcion requerida
+suma(34,12)                # Dentro del fichero
+
+from my_module import suma, no_space # Llamar varias funciones
+
+suma(1,3)
+print(no_space("Anita lava la tina"))

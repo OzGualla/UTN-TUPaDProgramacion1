@@ -22,6 +22,7 @@ def validar_numero(mensaje):
             numero = input(mensaje)
 
             if not numero.strip("-").isdigit():
+
                 raise ValueError("Error: Solo se aceptan números")
             
             numero = int(numero)
@@ -29,6 +30,7 @@ def validar_numero(mensaje):
             return numero
         
         except ValueError as error:
+
             print(f"Error: {error}\n")
             
             continue
@@ -47,15 +49,18 @@ def validar_letras(mensaje):
             # Regla de negocio:
             # no permitir nombres vacíos
             if not palabra:
+
                 raise ValueError("El campo no puede estar vacío")
 
             # Validar que solo contenga letras y espacios
             if not palabra.replace(" ", "").isalpha():
+
                 raise ValueError("Solo se aceptan letras")
             
             return palabra
         
         except ValueError as error:
+
             print(f"Error: {error}")
 
 
@@ -65,10 +70,12 @@ def inventario_vacio(inventario):
     y da aviso al usuario
     """
     if not inventario:
+
         print("\nEl inventario se encuentra vació\n"\
             "----------------------------------------\n"
             "Para hacer un carga inicial de herramientas\n"\
             "Utilize la opción 1 - Carga de Herramientas")
+        
         return True
     
     return False
@@ -106,10 +113,15 @@ def cargar_herramientas(inventario):
             return
 
     while True:
+
         cantidad_herramientas = validar_numero("Ingrese la cantidad de herramientas a cargar: ")
+
         if cantidad_herramientas <= 0:
+
             print("Error: La cantidad no puede ser menor o igual a 0")
+
             continue
+
         break
 
     # Cargar exactamente la cantidad indicada
@@ -122,15 +134,27 @@ def cargar_herramientas(inventario):
 
                 # Comparar nombres
                 if any(item['herramienta'].lower() == nombre_herramienta.lower() for item in inventario):
+
                     raise ValueError("La herramienta ya se encuentra registrada")
 
                 break
 
             except ValueError as error:
+
                 print(f"\nError: {error}")
 
         # El stock inicial puede ser 0
-        stock_inicial = validar_numero(f"Ingrese stock inicial de {nombre_herramienta}: ")
+        while True:
+
+            stock_inicial = validar_numero(f"Ingrese stock inicial de {nombre_herramienta}: ")
+
+            if stock_inicial < 0:
+
+                print("El stock no puede ser menor o igual a 0")
+
+                continue
+
+            break
 
         # Crear diccionario temporal
         dict_temp = {
@@ -155,7 +179,9 @@ def visualizar_inventario(inventario):
     
     print("=== Inventario ====")
     # Recorrer y mostrar cada herramienta registrada
+
     for item in inventario:
+
         print(f"{item['herramienta']} | Stock: {item['cantidad']}")
     
 
@@ -168,6 +194,7 @@ def consultar_stock(inventario):
     # Verificar que el inventario no este vació
     if inventario_vacio(inventario):
         return
+    
     # Solicitar nombre de herramienta
     buscar_herramienta = validar_letras("Ingrese nombre de herramienta: ")
 
@@ -176,14 +203,18 @@ def consultar_stock(inventario):
 
     # Buscar herramienta en el inventario
     for item in inventario:
+
         if buscar_herramienta.strip().lower() == item['herramienta'].lower():
+
             print(f"Herramienta: {item['herramienta']} | Stock: {item['cantidad']}")
 
             herramienta_encontrada = True
+
             break
 
     # Informar si la herramienta no existe
     if not herramienta_encontrada:
+
         print("Error: La herramienta no existe en el inventario")
 
 
@@ -199,7 +230,9 @@ def reportar_agotados(inventario):
     
     # Buscar cantidad con valor 0 en el inventario
     for item in inventario:
+
         if item['cantidad'] == 0:
+
             print(f"{item['herramienta']} | Stock: {item['cantidad']}")
 
 
@@ -207,6 +240,7 @@ def reportar_agotados(inventario):
 def alta_producto(inventario):
 
     if inventario_vacio(inventario):
+
         return
 
     try:
@@ -215,6 +249,7 @@ def alta_producto(inventario):
 
         # Verificar nombre vació o con caracteres no permitidos
         if not nueva_herramienta.replace(" ", "").isalpha():
+                
                 raise ValueError("Solo se aceptan letras, y el campo no puede estar vació\n"\
                             "=== Volviendo al menú principal ===")
         
@@ -275,18 +310,23 @@ def actualizar_stock(inventario):
                     herramienta = buscar_herramienta(inventario, buscar)
 
                     if herramienta is None:
+
                         raise ValueError("La herramienta no se encuentra en el catálogo")
                 
                     cantidad_venta = validar_numero("Cantidad vendida: ")
 
                     if cantidad_venta <= 0:
+
                         raise ValueError("La cantidad no puede ser menor o igual a 0")
                     
                     if cantidad_venta > item['cantidad']:
+
                         raise ValueError("La cantidad vendida supera el stock actual")
 
                     item['cantidad'] -= cantidad_venta
+
                     print(f"=== Se han vendido {cantidad_venta} unidades de {item['herramienta']} ===")
+
                     print(f"Actualización de herramienta: {item['herramienta']} | Stock actual: {item['cantidad']}")
 
                 except ValueError as error:
@@ -305,15 +345,19 @@ def actualizar_stock(inventario):
                     herramienta = buscar_herramienta(inventario, buscar)
 
                     if herramienta is None:
+
                         raise ValueError("La herramienta no se encuentra en el catálogo")
                 
                     cantidad_ingreso = validar_numero("Cantidad ingresada: ")
 
                     if cantidad_ingreso <= 0:
+
                         raise ValueError("La cantidad no puede ser menor o igual a 0")
 
                     item['cantidad'] += cantidad_ingreso
+
                     print(f"=== Se han ingresado {cantidad_ingreso} unidades de {item['herramienta']} ===")
+                    
                     print(f"Actualización de herramienta: {item['herramienta']} | Stock actual: {item['cantidad']}")
 
                 except ValueError as error:

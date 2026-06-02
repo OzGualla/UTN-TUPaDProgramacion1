@@ -30,6 +30,7 @@ def validar_numero(mensaje):
         
         except ValueError as error:
             print(f"Error: {error}\n")
+            
             continue
 
 
@@ -71,6 +72,7 @@ def inventario_vacio(inventario):
         return True
     
     return False
+
 
 # Buscar herramienta en la lista
 def buscar_herramienta(inventario, nombre):
@@ -156,7 +158,6 @@ def visualizar_inventario(inventario):
     for item in inventario:
         print(f"{item['herramienta']} | Stock: {item['cantidad']}")
     
-
 
 # Funcionalidad 3: Consultar stock de una herramienta
 def consultar_stock(inventario):
@@ -337,8 +338,11 @@ def menu():
 6 - Actualización de Stock (Venta / Ingreso)
 0 - Salir\n""")
 
-def siguiente_ejercicio():
+
+def pausar_ejecucion():
+    """ Realiza una pausa, hasta que el usuario ingrese una tecla """
     input("\nPresione una tecla para continuar...")
+
 
 def main():
 
@@ -349,6 +353,7 @@ def main():
 
         menu()  
 
+        print("Seleccione operación:")
         opcion = validar_numero("-> ")
 
         match opcion:
@@ -357,37 +362,37 @@ def main():
 
                 cargar_herramientas(inventario)
 
-                siguiente_ejercicio()
+                pausar_ejecucion()
 
             case 2:
                 
                 visualizar_inventario(inventario)
 
-                siguiente_ejercicio()
+                pausar_ejecucion()
 
             case 3:
                 
                 consultar_stock(inventario)
 
-                siguiente_ejercicio()
+                pausar_ejecucion()
 
             case 4:
                 
                 reportar_agotados(inventario)
 
-                siguiente_ejercicio()
+                pausar_ejecucion()
 
             case 5:
                 
                 alta_producto(inventario)
 
-                siguiente_ejercicio()
+                pausar_ejecucion()
 
             case 6:
 
                 actualizar_stock(inventario)
 
-                siguiente_ejercicio()
+                pausar_ejecucion()
 
             case 0:
                 print("=== Gracias por su tiempo ===")
@@ -395,6 +400,8 @@ def main():
             
             case _:
                 print("=== Opción inválida ===")
+
+                pausar_ejecucion()
 
 if __name__=="__main__":
     main()

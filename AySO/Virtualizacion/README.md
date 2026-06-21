@@ -1,54 +1,64 @@
-Trabajo Práctico Integrador — Virtualización con VirtualBox
+##Trabajo Práctico Integrador — Virtualización con VirtualBox
 
-Materia: Arquitectura y Sistemas Operativos
+# Materia: Arquitectura y Sistemas Operativos
 
-Carrera: Tecnicatura Universitaria en Programación a Distancia — UTN
+# Carrera: Tecnicatura Universitaria en Programación a Distancia — UTN
 
-Alumno: Gualla Mariano Guillermo
+# Alumno: Gualla Mariano Guillermo
 
-Comisión: 21
+# Comisión: 21
 
-Fecha de entrega: 22/06/2026
+# Fecha de entrega: 22/06/2026
 
 
-Descripción
+# Descripción
 
 Este repositorio contiene el informe del Trabajo Práctico Integrador sobre virtualización. El trabajo consiste en la implementación de un servidor web Apache sobre una máquina virtual con Ubuntu Server 26.04, utilizando VirtualBox como hipervisor tipo 2, y la verificación de su accesibilidad desde la red local.
 
-
+```text
 Contenido del repositorio
-├──  TPI_INFORME_VIRTUALIZACION.pdf — Informe completo del trabajo práctico
-└──  README.md                      — Este archivo
+|__  TPI_Virtualizacion.pdf  - Informe completo del trabajo práctico
+|__ setup.sh                 - Comando ejecutados en bash
+|__  README.md               - Este archivo
+```
 
-
-Tema: Virtualización
+# Tema: Virtualización
 
 La virtualización es una tecnología que permite ejecutar múltiples sistemas operativos de forma simultánea sobre un mismo equipo físico, mediante la creación de máquinas virtuales administradas por un hipervisor.
 
 En este trabajo se utilizó un hipervisor tipo 2 (VirtualBox), que se instala como una aplicación dentro del sistema operativo anfitrión y permite crear y administrar máquinas virtuales desde un entorno de escritorio convencional.
 
 
-Caso práctico
+# Caso práctico
 
 Objetivo: implementar un servidor web Apache en una máquina virtual con Ubuntu Server y verificar su acceso desde la red local.
 
 Especificaciones de la VM
+```text
+ParámetroValorHipervisorOracle
+VirtualBoxSistema
+operativo invitadoUbuntu Server 26.04
+Memoria RAM 4 GB
+Almacenamiento40 GB (VDI dinámico)
+Controlador gráfico VBoxSVGA
+RedAdaptador BridgeIP asignada192.168.1.44
+```
 
-ParámetroValorHipervisorOracle VirtualBoxSistema operativo invitadoUbuntu Server 26.04Memoria RAM4 GBAlmacenamiento40 GB (VDI dinámico)Controlador gráficoVBoxSVGARedAdaptador BridgeIP asignada192.168.1.44
-
+```text
 Topología de red
 
 Internet
-    │
+    |
   Router
   (192.168.1.1)
-    │
-    ├── PC Host — Windows 10 Home (192.168.1.100)
-    │
-    └── Ubuntu Server VM (192.168.1.44)
-            └── Apache HTTP Server — puerto 80
+    |
+    |__ PC Host — Windows 10 Home (192.168.1.100)
+    |
+    |__ Ubuntu Server VM (192.168.1.44)
+            |__ Apache HTTP Server — puerto 80
+```
 
-Comandos principales utilizados
+# Comandos principales utilizados
 
 bash# Actualizar repositorios
 sudo apt update
@@ -72,14 +82,13 @@ ip a
 
 Verificación desde Windows (host)
 
-cmdping 192.168.1.44
+cmd ping 192.168.1.44
 
 Resultado: 4 paquetes enviados, 4 recibidos, 0% de pérdida.
 
 Acceso web verificado ingresando http://192.168.1.44 desde el navegador del host, visualizando la página predeterminada de Apache ("It works!").
 
-
-Dificultades encontradas
+#Dificultades encontradas
 
 Error de controlador gráfico (vmwgfx)
 
@@ -89,16 +98,18 @@ Perfil OpenSSH no encontrado
 
 Al intentar ejecutar sudo ufw allow OpenSSH, el firewall no reconocía el perfil porque el servidor SSH no estaba instalado previamente. Se resolvió instalando openssh-server antes de configurar UFW.
 
+#Video explicativo
 
-Video explicativo
+https://www.youtube.com/watch?v=B1mufVx6HtQ
 
-Próximamente disponible en YouTube
-
-
-Bibliografía
-
-
-Apache Software Foundation. (s.f.). Apache HTTP Server Documentation. https://httpd.apache.org/docs/
-Canonical Ltd. (s.f.). Ubuntu Server Documentation. https://ubuntu.com/server/docs
-Oracle Corporation. (s.f.). Oracle VM VirtualBox User Manual. https://www.virtualbox.org/manual/
-Enferrel, A. (s.f.). Material de la asignatura Arquitectura y Sistemas Operativos. UTN — Tecnicatura Universitaria en Programación a Distancia.
+#Bibliografía
+```text
+Apache Software Foundation. (s.f.). Apache HTTP Server Documentation.
+https://httpd.apache.org/docs/
+Canonical Ltd. (s.f.). Ubuntu Server Documentation.
+https://ubuntu.com/server/docs
+Oracle Corporation. (s.f.). Oracle VM VirtualBox User Manual.
+https://www.virtualbox.org/manual/
+Enferrel, A. (s.f.). Material de la asignatura Arquitectura y Sistemas Operativos. UTN -
+Tecnicatura Universitaria en Programación a Distancia.
+```

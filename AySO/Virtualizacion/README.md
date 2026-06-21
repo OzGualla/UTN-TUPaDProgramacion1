@@ -1,4 +1,6 @@
-##Trabajo Práctico Integrador — Virtualización con VirtualBox
+```text
+Trabajo Práctico Integrador — Virtualización con VirtualBox
+```
 
 # Materia: Arquitectura y Sistemas Operativos
 

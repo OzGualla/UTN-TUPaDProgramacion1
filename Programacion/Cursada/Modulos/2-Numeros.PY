@@ -17,3 +17,6 @@ print(3//2) #division entera, sin decimales
 print(3**2) #potencia
 print(8%2) #modulo, resto de la division
 
+if numero >= 10:
+    print("True")
+
